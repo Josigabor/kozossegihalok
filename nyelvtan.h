@@ -1,0 +1,6 @@
+#ifndef NYELVTAN_H_INCLUDED
+#define NYELVTAN_H_INCLUDED
+
+
+
+#endif // NYELVTAN_H_INCLUDED

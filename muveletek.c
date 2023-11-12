@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include <SDL2/SDL_ttf.h>
 #include "muveletek.h"
+#include "debugmalloc.h"
 
 
 
@@ -65,7 +66,12 @@ void deletenode(network * n, int x){
             }
 
         }
-        free(ptr);
+        if(x==n->esz){
+                free(n->conns[n->esz-1]);
+
+        }else{
+               free(ptr);
+        }
         n->conns = realloc(n->conns,n->esz * sizeof(int*));
         for (int i = 0; i < n->esz-1; i++){
             for(int j = 0; j<n->esz-1-i;j++){
@@ -90,7 +96,7 @@ void deletenode(network * n, int x){
 
 void addconn(network * n, int x, int y){
     if(x==y){
-        printf("Önmagával nem kapcsolható egy elem.");
+        printf("Onmagával nem kapcsolhato egy elem.\n");
         return;
     }
     if(y>x){
@@ -99,9 +105,18 @@ void addconn(network * n, int x, int y){
         n->conns[y][x-y-1] = 1;
     }
 }
+
+void addallconn(network*n){
+        for(int i = 0;i<n->esz;i++){
+            for(int j = 0;j<n->esz-i-1;j++){
+                    n->conns[i][j] = 1;
+            }
+        }
+}
+
 void deleteconn(network * n, int x, int y){
     if(x==y){
-        printf("Önmagával nem kapcsolható egy elem.");
+        printf("Onmagával nem kapcsolhato egy elem.\n");
         return;
     }
     if(y>x){
@@ -110,43 +125,63 @@ void deleteconn(network * n, int x, int y){
         n->conns[y][x-y-1] = 0;
     }
 }
+void deleteallconn(network*n){
+        for(int i = 0;i<n->esz;i++){
+            for(int j = 0;j<n->esz-i-1;j++){
+                    n->conns[i][j] = 0;
+            }
+        }
+}
 
+void showconns(network n, int x){
+        printf("%d. NODE: %d --- ",x, n.tipus[x]);
+            for(int j = 0; j<n.esz-x-1;j++){
+                printf("%d ", n.conns[x][j]);
+                }
+}
 
-network load(){
+void deletenetwork(network * n){
+        for(int i =0; i< n->esz-1;i++){ // felszabadítás a bezárás elõtt
+        free(n->conns[i]);
+    }
+    free(n->tipus);
+    free(n->conns);
+    n->esz = 0;
+}
+
+void load(network * n){
         FILE* save;
-        network n;
         save = fopen("mentes.txt", "r");
         if (save != NULL) {
-            fscanf(save,"%d\n", &n.esz);
-            char* str = malloc((n.esz+2)*sizeof(char));
-            n.tipus = malloc((n.esz+2)*sizeof(int));
-            fgets(str,n.esz+2,save);
-            for(int i = 0; i<n.esz;i++){
+            deletenetwork(n);
+            fscanf(save,"%d\n", &(n->esz));
+            char* str = malloc((n->esz+2)*sizeof(char));
+            n->tipus = malloc((n->esz+2)*sizeof(int));
+            fgets(str,n->esz+2,save);
+            for(int i = 0; i<n->esz;i++){
                 if(str[i]=='0'){
-                        n.tipus[i] = 0;
+                        n->tipus[i] = 0;
                     }else if(str[i]=='1'){
-                        n.tipus[i] = 1;
+                        n->tipus[i] = 1;
                     }
             }
-            n.conns =malloc((n.esz-1) * sizeof(int*));
-            for(int i =0;i<n.esz-1;i++){
-                n.conns[i] = malloc((n.esz-i)*sizeof(int));
-                fgets(str,n.esz-i+1,save);
-                for(int j =0; j<n.esz-i-1;j++){
+            n->conns =malloc((n->esz-1) * sizeof(int*));
+            for(int i =0;i<n->esz-1;i++){
+                n->conns[i] = malloc((n->esz-i)*sizeof(int));
+                fgets(str,n->esz-i+1,save);
+                for(int j =0; j<n->esz-i-1;j++){
                     if(str[j]=='0'){
-                        n.conns[i][j] = 0;
+                        n->conns[i][j] = 0;
                     }else if(str[j]=='1'){
-                        n.conns[i][j] = 1;
+                        n->conns[i][j] = 1;
                     }
                 }
             }
             fclose(save);
             free(str);
-            return n;
         }
         else {
-            perror("Nem sikerült megnyitni a fájlt");
-            return ures();
+            perror("Nem sikerult megnyitni a fajlt\n");
     }
 }
 
@@ -180,11 +215,34 @@ void inv(network * n){
         }
 }
 
-void deletenetwork(network * n){
-        for(int i =0; i< n->esz-1;i++){ // felszabadítás a bezárás elõtt
-        free(n->conns[i]);
+
+
+void isthereconn(network n, int x, int y){
+     if(x==y){
+        printf("Onmagaval nem kapcsolhato egy elem.\n");
+        return;
     }
-    free(n->tipus);
-    free(n->conns);
-    n->esz = 0;
+    if(y>x){
+        printf("%s\n",n.conns[x][y-x-1] ? "Van kapcsolat\n" : "Nincs kapcsolat\n") ;
+    }else if(x>y){
+        printf("%s\n",n.conns[y][x-y-1] ? "Van kapcsolat\n" : "Nincs kapcsolat\n") ;
+    }
+}
+
+void allcons(network n){
+    int cnt = 0;
+    printf("A kovetkezo elemek vannak kapcsolatban:\n");
+        for(int i = 0;i<n.esz;i++){
+            for(int j = 0;j<n.esz-i-1;j++){
+                    if(n.conns[i][j]){
+                        printf("[%d %d]\n", i ,j+i+1);
+                        cnt++;
+                    }
+            }
+
+        }
+        if(cnt == 0){
+                    printf("A halozatban nincsenek kapcsolatok.\n");
+        }
+
 }

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1699737249 source:c:\users\josig\onedrive\desktop\prog\prog 1\nagyhazi1\main.c
+1699816146 source:c:\users\josig\onedrive\desktop\prog\prog 1\nagyhazi1\main.c
 	<SDL2/SDL2_gfxPrimitives.h>
 	<math.h>
 	<stdlib.h>
@@ -11,6 +11,7 @@
 	"muveletek.h"
 	"megjelenites.h"
 	"sdl_init.h"
+	"nyelvtan.h"
 
 1697361651 c:\program files\codeblocks\mingw\include\sdl2\sdl2_gfxprimitives.h
 	<math.h>
@@ -394,7 +395,7 @@
 
 1699728057 c:\users\josig\onedrive\desktop\prog\prog 1\nagyhazi1\beolvasofgv.h
 
-1699736582 source:c:\users\josig\onedrive\desktop\prog\prog 1\nagyhazi1\muveletek.c
+1699822200 source:c:\users\josig\onedrive\desktop\prog\prog 1\nagyhazi1\muveletek.c
 	<SDL2/SDL.h>
 	<SDL2/SDL2_gfxPrimitives.h>
 	<math.h>
@@ -403,10 +404,24 @@
 	<stdbool.h>
 	<SDL2/SDL_ttf.h>
 	"muveletek.h"
+	"debugmalloc.h"
 
-1699736552 c:\users\josig\onedrive\desktop\prog\prog 1\nagyhazi1\muveletek.h
+1699821778 c:\users\josig\onedrive\desktop\prog\prog 1\nagyhazi1\muveletek.h
 
-1699736871 source:c:\users\josig\onedrive\desktop\prog\prog 1\nagyhazi1\nyelvtan.c
+1699814870 source:c:\users\josig\onedrive\desktop\prog\prog 1\nagyhazi1\nyelvtan.c
+	<SDL2/SDL.h>
+	<SDL2/SDL2_gfxPrimitives.h>
+	<math.h>
+	<stdlib.h>
+	<stdbool.h>
+	<stdio.h>
+	<string.h>
+	<SDL2/SDL_ttf.h>
+	"debugmalloc.h"
+	"beolvasofgv.h"
+	"muveletek.h"
+	"megjelenites.h"
+	"sdl_init.h"
 
 1699737220 source:c:\users\josig\onedrive\desktop\prog\prog 1\nagyhazi1\sdl_init.c
 	<SDL2/SDL.h>
@@ -444,4 +459,6 @@
 1699737109 c:\users\josig\onedrive\desktop\prog\prog 1\nagyhazi1\megjcalc.h
 
 1699737249 c:\users\josig\onedrive\desktop\prog\prog 1\nagyhazi1\sdl_init.h
+
+1699747373 c:\users\josig\onedrive\desktop\prog\prog 1\nagyhazi1\nyelvtan.h
 
